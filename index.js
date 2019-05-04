@@ -4,19 +4,26 @@
  * @returns {Array}
  */
 function query(collection) {    // функция принимает массив объектов и возвращает
-                                // новый массив отфильтрованный с помощью функций
-    let namesFunc = [];         // filterIn и select в правильной последовательности
+    // отфильтрованный с помощью функций filterIn и select в правильной последовательности
+    let copyOfCollection = collection.slice();
+    for (let k = 0; k < collection.length; k++) {
+        copyOfCollection[k] = Object.assign({}, collection[k]);
+    }
+    if (arguments.length === 1) {
+        return copyOfCollection;
+    }
+
+    let namesFunc = [];  
     for (let i = 1; i < arguments.length; i++) {
         namesFunc.push(arguments[i]);
     }
     namesFunc.sort();
-
-    namesFunc.forEach(function(item) {
-        collection = (item)(collection);
+    namesFunc.forEach(function(item){
+        copyOfCollection = (item)(copyOfCollection);
     });
 
-    console.log(collection);
-    return collection;
+    console.log('copyOfCollection', copyOfCollection);
+    return copyOfCollection;
 };
 
 /**
