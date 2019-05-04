@@ -3,9 +3,21 @@
  * @params {Function[]} – Функции для запроса
  * @returns {Array}
  */
-function query(collection) {
+function query(collection) {    // функция принимает массив объектов и возвращает
+                                // новый массив отфильтрованный с помощью функций
+    let namesFunc = [];         // filterIn и select в правильной последовательности
+    for (let i = 1; i < arguments.length; i++) {
+        namesFunc.push(arguments[i]);
+    }
+    namesFunc.sort();
 
-}
+    namesFunc.forEach(function(item) {
+        collection = (item)(collection);
+    });
+
+    console.log(collection);
+    return collection;
+};
 
 /**
  * @params {String[]}
@@ -32,8 +44,8 @@ function select() {           // функция принимает аргуме�
             }
         }
         return collection;
-    }
-}
+    };
+};
 
 /**
  * @param {String} property – Свойство для фильтрации
