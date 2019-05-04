@@ -37,9 +37,23 @@ function select() { // функция принимает аргументы, н�
  * @param {String} property – Свойство для фильтрации
  * @param {Array} values – Массив разрешённых значений
  */
-function filterIn(property, values) {
+function filterIn(property, values) {                     // функция в качестве аргументов принимает
+                                                          // ключ и массив значений ключа возвращая
+    return function filterIn(collection) {                // функцию фильтрующую коллекцию объектов,
+        let arrByProp = collection.filter(filterByProp);  // которая в свою очередь принимает массив
+        return arrByProp;                                 // и возвращает новый отфильтрованный 
+    };                                                    // массив объектов
 
-}
+    function filterByProp(item) {                         
+        if (item.hasOwnProperty(property)) {
+            for (let i = 0; i < values.length; i++) {
+                if (item[property] === values[i]) {
+                    return true;
+                }
+            }
+        }
+    };
+};
 
 module.exports = {
     query: query,
