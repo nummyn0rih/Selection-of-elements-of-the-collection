@@ -10,26 +10,28 @@ function query(collection) {
 /**
  * @params {String[]}
  */
-function select() { // функция принимает аргументы, на основании которых 
-                    // производится отбор свойств в объектах коллекции 
-    console.log(arguments);      // объект с аргументами
-    console.log(copyCollection); // коллекция объектов friends
-    let objectKeys = [];         // name,gender,email,favoriteFruit
+function select() {           // функция принимает аргументы, на основании которых 
+                              // производится отбор свойств в объектах коллекции 
+    let objectKeys = [];      // name, gender, email, favoriteFruit
+    let args = arguments;     // name, gender, email
 
-    for (let i = 0; i < copyCollection.length; i++) { // проходим по каждому объекту коллекции
-        objectKeys = Object.keys(copyCollection[i]);  // в переменную objectKeys записывается 
-                                                      // массив со всеми свойствами итерируемого 
-                                                      // объекта коллекции
-        for (keyColl in copyCollection[i]) {          // каждое свойство объекта проверяется на
-            outer: for (keyArg in arguments) {        // наличие в списке аргументов ф-ции
-                if (keyColl === arguments[keyArg]) {  // если свойство есть в списке аргументов,
-                    break outer;                      // то завершаем внутренний цикл и проверяем
-                                                      // следующее свойство объекта
-                } else if (keyArg == arguments.length - 1) { // если свойства нет в списке 
-                    delete copyCollection[i][keyColl];       // аргументов, то текущее свойство
-                }                                            // удаляется из объекта
+    return function select(collection) {
+        for (let i = 0; i < collection.length; i++) {   // проходим по каждому объекту коллекции
+            objectKeys = Object.keys(collection[i]);    // в переменную objectKeys записывается 
+                                                        // массив со всеми свойствами итерируемого 
+                                                        // объекта коллекции
+            for (keyColl in collection[i]) {            // каждое свойство объекта проверяется на
+                outer: for (keyArg in args) {           // наличие в списке аргументов ф-ции
+                    if (keyColl === args[keyArg]) {     // если свойство есть в списке аргументов,
+                        break outer;                    // то завершаем внутренний цикл и проверяем
+                                                        // следующее свойство объекта
+                    } else if (keyArg == args.length - 1) { // если свойства нет в списке 
+                        delete collection[i][keyColl];      // аргументов, то текущее свойство
+                    }                                       // удаляется из объекта
+                }
             }
         }
+        return collection;
     }
 }
 
